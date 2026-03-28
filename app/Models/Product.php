@@ -13,6 +13,8 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $routeKeyName = 'slug';
+
     protected $fillable = [
         'name',
         'slug',
@@ -94,5 +96,10 @@ class Product extends Model
     public function isLowStock(): bool
     {
         return $this->stock_quantity > 0 && $this->stock_quantity <= $this->low_stock_threshold;
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return static::where('slug', $value)->first();
     }
 }
