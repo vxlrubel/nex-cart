@@ -31,7 +31,7 @@ class CartController extends Controller
 
         $product = Product::findOrFail($validated['product_id']);
 
-        if ($validated['variant_id']) {
+        if (! empty($validated['variant_id'])) {
             $variant = ProductVariant::where('id', $validated['variant_id'])
                 ->where('product_id', $product->id)
                 ->firstOrFail();
