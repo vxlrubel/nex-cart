@@ -25,7 +25,7 @@ class OrderController extends Controller
                 $query->where('payment_status', $paymentStatus);
             })
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->get();
 
         return inertia('Admin/Orders/Index', [
             'orders' => $orders,

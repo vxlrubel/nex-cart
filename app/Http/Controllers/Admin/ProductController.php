@@ -24,7 +24,7 @@ class ProductController extends Controller
                 $query->where('is_active', $status === 'active');
             })
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->get();
 
         $categories = Category::where('is_active', true)->get();
 

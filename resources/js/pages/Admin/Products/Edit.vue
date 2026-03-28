@@ -177,7 +177,7 @@
 
 <script setup>
 import { reactive } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     product: Object,

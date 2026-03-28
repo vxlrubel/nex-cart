@@ -22,7 +22,7 @@ class UserController extends Controller
                 });
             })
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->get();
 
         return inertia('Admin/Users/Index', [
             'users' => $users,

@@ -1,58 +1,42 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { Plus, Search, Pencil, Trash2 } from 'lucide-vue-next';
-import productRoutes from '@/routes/admin/products';
-import type { Product } from '@/types';
+import { Plus, Pencil, Trash2 } from 'lucide-vue-next';
+import categoryRoutes from '@/routes/admin/categories';
+import type { Category } from '@/types';
 
 defineProps<{
-    products: Product[];
+    categories: Category[];
 }>();
 </script>
 
 <template>
     <div class="p-6">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-semibold">Products</h1>
+            <h1 class="text-2xl font-semibold">Categories</h1>
             <Link
-                :href="productRoutes?.create?.() || '#'"
+                :href="categoryRoutes?.create?.() || '#'"
                 class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
                 <Plus class="h-4 w-4" />
-                Add Product
+                Add Category
             </Link>
         </div>
 
         <div class="rounded-lg border bg-card shadow-sm">
-            <div class="flex items-center gap-4 border-b p-4">
-                <div class="relative max-w-sm flex-1">
-                    <Search
-                        class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Search products..."
-                        class="h-9 w-full rounded-md border bg-background pr-4 pl-9 text-sm"
-                    />
-                </div>
-            </div>
-
             <table class="w-full">
                 <thead class="bg-muted/50">
                     <tr>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Image
-                        </th>
-                        <th class="px-4 py-3 text-left text-sm font-medium">
                             Name
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            SKU
+                            Slug
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Price
+                            Parent
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Stock
+                            Order
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
                             Status
@@ -64,45 +48,38 @@ defineProps<{
                 </thead>
                 <tbody>
                     <tr
-                        v-for="product in products || []"
-                        :key="product.id"
+                        v-for="category in categories || []"
+                        :key="category.id"
                         class="border-t"
                     >
-                        <td class="px-4 py-3">
-                            <img
-                                v-if="product.image"
-                                :src="product.image"
-                                :alt="product.name"
-                                class="h-10 w-10 rounded object-cover"
-                            />
-                            <div v-else class="h-10 w-10 rounded bg-muted" />
-                        </td>
                         <td class="px-4 py-3 font-medium">
-                            {{ product.name }}
+                            {{ category.name }}
                         </td>
                         <td class="px-4 py-3 text-muted-foreground">
-                            {{ product.sku }}
+                            {{ category.slug }}
                         </td>
-                        <td class="px-4 py-3">${{ product.price }}</td>
-                        <td class="px-4 py-3">{{ product.stock_quantity }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">
+                            {{ category.parent_id ? 'Has Parent' : '-' }}
+                        </td>
+                        <td class="px-4 py-3">{{ category.order }}</td>
                         <td class="px-4 py-3">
                             <span
                                 :class="
-                                    product.is_active
+                                    category.is_active
                                         ? 'bg-green-100 text-green-800'
                                         : 'bg-gray-100 text-gray-800'
                                 "
                                 class="rounded px-2 py-1 text-xs"
                             >
-                                {{ product.is_active ? 'Active' : 'Inactive' }}
+                                {{ category.is_active ? 'Active' : 'Inactive' }}
                             </span>
                         </td>
                         <td class="px-4 py-3 text-right">
                             <div class="flex items-center justify-end gap-2">
                                 <Link
                                     :href="
-                                        product?.id
-                                            ? `/admin/products/${product.id}/edit`
+                                        category?.id
+                                            ? `/admin/categories/${category.id}/edit`
                                             : '#'
                                     "
                                     class="rounded p-1 hover:bg-muted"

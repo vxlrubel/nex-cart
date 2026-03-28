@@ -1,61 +1,51 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { Plus, Search, Pencil, Trash2 } from 'lucide-vue-next';
-import productRoutes from '@/routes/admin/products';
-import type { Product } from '@/types';
+import { Plus, Pencil, Trash2, Shield } from 'lucide-vue-next';
+import roleRoutes from '@/routes/admin/roles';
 
 defineProps<{
-    products: Product[];
+    roles: Array<{
+        id: number;
+        name: string;
+        slug: string;
+        description: string;
+        permissions_count: number;
+        users_count: number;
+    }>;
 }>();
 </script>
 
 <template>
     <div class="p-6">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-semibold">Products</h1>
+            <h1 class="text-2xl font-semibold">Roles</h1>
             <Link
-                :href="productRoutes?.create?.() || '#'"
+                :href="roleRoutes?.create?.() || '#'"
                 class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
                 <Plus class="h-4 w-4" />
-                Add Product
+                Add Role
             </Link>
         </div>
 
         <div class="rounded-lg border bg-card shadow-sm">
-            <div class="flex items-center gap-4 border-b p-4">
-                <div class="relative max-w-sm flex-1">
-                    <Search
-                        class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Search products..."
-                        class="h-9 w-full rounded-md border bg-background pr-4 pl-9 text-sm"
-                    />
-                </div>
-            </div>
-
             <table class="w-full">
                 <thead class="bg-muted/50">
                     <tr>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Image
-                        </th>
-                        <th class="px-4 py-3 text-left text-sm font-medium">
                             Name
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            SKU
+                            Slug
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Price
+                            Description
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Stock
+                            Permissions
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Status
+                            Users
                         </th>
                         <th class="px-4 py-3 text-right text-sm font-medium">
                             Actions
@@ -64,45 +54,42 @@ defineProps<{
                 </thead>
                 <tbody>
                     <tr
-                        v-for="product in products || []"
-                        :key="product.id"
+                        v-for="role in roles || []"
+                        :key="role.id"
                         class="border-t"
                     >
                         <td class="px-4 py-3">
-                            <img
-                                v-if="product.image"
-                                :src="product.image"
-                                :alt="product.name"
-                                class="h-10 w-10 rounded object-cover"
-                            />
-                            <div v-else class="h-10 w-10 rounded bg-muted" />
+                            <div class="flex items-center gap-2">
+                                <Shield class="h-4 w-4 text-muted-foreground" />
+                                <span class="font-medium">{{ role.name }}</span>
+                            </div>
                         </td>
-                        <td class="px-4 py-3 font-medium">
-                            {{ product.name }}
+                        <td class="px-4 py-3 font-mono text-muted-foreground">
+                            {{ role.slug }}
                         </td>
                         <td class="px-4 py-3 text-muted-foreground">
-                            {{ product.sku }}
+                            {{ role.description }}
                         </td>
-                        <td class="px-4 py-3">${{ product.price }}</td>
-                        <td class="px-4 py-3">{{ product.stock_quantity }}</td>
                         <td class="px-4 py-3">
                             <span
-                                :class="
-                                    product.is_active
-                                        ? 'bg-green-100 text-green-800'
-                                        : 'bg-gray-100 text-gray-800'
-                                "
-                                class="rounded px-2 py-1 text-xs"
+                                class="rounded bg-blue-100 px-2 py-1 text-xs text-blue-800"
                             >
-                                {{ product.is_active ? 'Active' : 'Inactive' }}
+                                {{ role.permissions_count }} permissions
+                            </span>
+                        </td>
+                        <td class="px-4 py-3">
+                            <span
+                                class="rounded bg-purple-100 px-2 py-1 text-xs text-purple-800"
+                            >
+                                {{ role.users_count }} users
                             </span>
                         </td>
                         <td class="px-4 py-3 text-right">
                             <div class="flex items-center justify-end gap-2">
                                 <Link
                                     :href="
-                                        product?.id
-                                            ? `/admin/products/${product.id}/edit`
+                                        role?.id
+                                            ? `/admin/roles/${role.id}/edit`
                                             : '#'
                                     "
                                     class="rounded p-1 hover:bg-muted"
@@ -110,6 +97,7 @@ defineProps<{
                                     <Pencil class="h-4 w-4" />
                                 </Link>
                                 <button
+                                    v-if="role.slug !== 'admin'"
                                     class="rounded p-1 text-red-600 hover:bg-red-50"
                                 >
                                     <Trash2 class="h-4 w-4" />

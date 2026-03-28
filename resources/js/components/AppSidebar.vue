@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-vue-next';
+import {
+    BookOpen,
+    Box,
+    FolderGit2,
+    LayoutGrid,
+    Package,
+    Settings,
+    ShoppingCart,
+    Star,
+    Tag,
+    Users,
+} from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -14,14 +25,70 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import adminRoutes from '@/routes/admin';
+const {
+    dashboard,
+    products,
+    categories,
+    orders,
+    users,
+    coupons,
+    reviews,
+    roles,
+    permissions,
+} = adminRoutes;
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: dashboard.url(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Products',
+        href: products.index.url(),
+        icon: Package,
+    },
+    {
+        title: 'Categories',
+        href: categories.index.url(),
+        icon: Tag,
+    },
+    {
+        title: 'Orders',
+        href: orders.index.url(),
+        icon: ShoppingCart,
+    },
+    {
+        title: 'Customers',
+        href: users.index.url(),
+        icon: Users,
+    },
+    {
+        title: 'Coupons',
+        href: coupons.index.url(),
+        icon: Box,
+    },
+    {
+        title: 'Reviews',
+        href: reviews.index.url(),
+        icon: Star,
+    },
+    {
+        title: 'Settings',
+        items: [
+            {
+                title: 'Roles',
+                href: roles.index.url(),
+                icon: Settings,
+            },
+            {
+                title: 'Permissions',
+                href: permissions.index.url(),
+                icon: Settings,
+            },
+        ],
     },
 ];
 
@@ -45,7 +112,7 @@ const footerNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="dashboard()">
+                        <Link :href="dashboard.url()">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>

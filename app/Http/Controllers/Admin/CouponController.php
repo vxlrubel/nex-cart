@@ -10,7 +10,7 @@ class CouponController extends Controller
 {
     public function index(Request $request)
     {
-        $coupons = Coupon::with('user')
+        $coupons = Coupon::query()
             ->when($request->search, function ($query, $search) {
                 $query->where('code', 'like', "%{$search}%");
             })
@@ -18,7 +18,7 @@ class CouponController extends Controller
                 $query->where('is_active', $status === 'active');
             })
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->get();
 
         return inertia('Admin/Coupons/Index', [
             'coupons' => $coupons,

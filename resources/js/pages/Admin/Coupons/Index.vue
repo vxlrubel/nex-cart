@@ -1,58 +1,58 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { Plus, Search, Pencil, Trash2 } from 'lucide-vue-next';
-import productRoutes from '@/routes/admin/products';
-import type { Product } from '@/types';
+import { Plus, Pencil, Trash2 } from 'lucide-vue-next';
+import couponRoutes from '@/routes/admin/coupons';
 
 defineProps<{
-    products: Product[];
+    coupons: Array<{
+        id: number;
+        code: string;
+        type: string;
+        value: number;
+        min_order_amount: number;
+        max_uses: number;
+        used_count: number;
+        starts_at: string;
+        expires_at: string;
+        is_active: boolean;
+    }>;
 }>();
 </script>
 
 <template>
     <div class="p-6">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-semibold">Products</h1>
+            <h1 class="text-2xl font-semibold">Coupons</h1>
             <Link
-                :href="productRoutes?.create?.() || '#'"
+                :href="couponRoutes?.create?.() || '#'"
                 class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
                 <Plus class="h-4 w-4" />
-                Add Product
+                Add Coupon
             </Link>
         </div>
 
         <div class="rounded-lg border bg-card shadow-sm">
-            <div class="flex items-center gap-4 border-b p-4">
-                <div class="relative max-w-sm flex-1">
-                    <Search
-                        class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Search products..."
-                        class="h-9 w-full rounded-md border bg-background pr-4 pl-9 text-sm"
-                    />
-                </div>
-            </div>
-
             <table class="w-full">
                 <thead class="bg-muted/50">
                     <tr>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Image
+                            Code
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Name
+                            Type
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            SKU
+                            Value
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Price
+                            Min Order
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
-                            Stock
+                            Usage
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium">
+                            Expires
                         </th>
                         <th class="px-4 py-3 text-left text-sm font-medium">
                             Status
@@ -64,45 +64,50 @@ defineProps<{
                 </thead>
                 <tbody>
                     <tr
-                        v-for="product in products || []"
-                        :key="product.id"
+                        v-for="coupon in coupons || []"
+                        :key="coupon.id"
                         class="border-t"
                     >
-                        <td class="px-4 py-3">
-                            <img
-                                v-if="product.image"
-                                :src="product.image"
-                                :alt="product.name"
-                                class="h-10 w-10 rounded object-cover"
-                            />
-                            <div v-else class="h-10 w-10 rounded bg-muted" />
+                        <td class="px-4 py-3 font-mono font-medium">
+                            {{ coupon.code }}
                         </td>
-                        <td class="px-4 py-3 font-medium">
-                            {{ product.name }}
+                        <td class="px-4 py-3 capitalize">{{ coupon.type }}</td>
+                        <td class="px-4 py-3">
+                            {{
+                                coupon.type === 'percentage'
+                                    ? `${coupon.value}%`
+                                    : `$${coupon.value}`
+                            }}
+                        </td>
+                        <td class="px-4 py-3">
+                            ${{ coupon.min_order_amount }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ coupon.used_count }} / {{ coupon.max_uses }}
                         </td>
                         <td class="px-4 py-3 text-muted-foreground">
-                            {{ product.sku }}
+                            {{
+                                new Date(coupon.expires_at).toLocaleDateString()
+                            }}
                         </td>
-                        <td class="px-4 py-3">${{ product.price }}</td>
-                        <td class="px-4 py-3">{{ product.stock_quantity }}</td>
                         <td class="px-4 py-3">
                             <span
                                 :class="
-                                    product.is_active
+                                    coupon.is_active
                                         ? 'bg-green-100 text-green-800'
                                         : 'bg-gray-100 text-gray-800'
                                 "
                                 class="rounded px-2 py-1 text-xs"
                             >
-                                {{ product.is_active ? 'Active' : 'Inactive' }}
+                                {{ coupon.is_active ? 'Active' : 'Inactive' }}
                             </span>
                         </td>
                         <td class="px-4 py-3 text-right">
                             <div class="flex items-center justify-end gap-2">
                                 <Link
                                     :href="
-                                        product?.id
-                                            ? `/admin/products/${product.id}/edit`
+                                        coupon?.id
+                                            ? `/admin/coupons/${coupon.id}/edit`
                                             : '#'
                                     "
                                     class="rounded p-1 hover:bg-muted"

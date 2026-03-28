@@ -23,7 +23,7 @@ class ReviewController extends Controller
                 $query->where('rating', $rating);
             })
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->get();
 
         return inertia('Admin/Reviews/Index', [
             'reviews' => $reviews,

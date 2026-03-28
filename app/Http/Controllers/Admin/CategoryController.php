@@ -19,7 +19,7 @@ class CategoryController extends Controller
                 $query->where('is_active', $status === 'active');
             })
             ->orderBy('order')
-            ->paginate(10);
+            ->get();
 
         return inertia('Admin/Categories/Index', [
             'categories' => $categories,
