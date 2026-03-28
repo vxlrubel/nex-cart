@@ -8,6 +8,11 @@
             >
             <div class="flex items-center gap-6">
                 <Link
+                    href="/home"
+                    class="text-gray-700 hover:text-indigo-600"
+                    >Home</Link
+                >
+                <Link
                     href="/products"
                     class="text-gray-700 hover:text-indigo-600"
                     >Products</Link
