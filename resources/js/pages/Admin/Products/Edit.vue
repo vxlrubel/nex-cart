@@ -38,8 +38,16 @@
                         <input
                             v-model="form.slug"
                             type="text"
+                            placeholder="e.g., my-product-name"
                             class="w-full rounded border px-3 py-2"
+                            :class="{ 'border-red-500': slugError }"
                         />
+                        <p v-if="slugError" class="mt-1 text-sm text-red-500">
+                            {{ slugError }}
+                        </p>
+                        <p v-else class="mt-1 text-sm text-gray-500">
+                            Only lowercase letters (a-z), numbers, and hyphens
+                        </p>
                     </div>
                     <div>
                         <label class="mb-2 block font-medium">Category</label>
@@ -230,13 +238,22 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, watch, computed } from 'vue';
 import { router, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     product: Object,
     categories: Array,
 });
+
+const formatSlug = (value) => {
+    return value
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+};
 
 const form = reactive({
     name: props.product.name,
@@ -257,6 +274,39 @@ const form = reactive({
     meta_keywords: props.product.meta_keywords || '',
     custom_schema: props.product.custom_schema || '',
 });
+
+watch(
+    () => form.name,
+    (newName) => {
+        if (
+            !form.slug ||
+            form.slug === formatSlug(form.name.slice(0, form.slug.length))
+        ) {
+            form.slug = formatSlug(newName);
+        }
+    },
+);
+
+const slugError = computed(() => {
+    if (!form.slug) return '';
+    if (!/^[a-z0-9-]+$/.test(form.slug)) {
+        return 'Only lowercase letters (a-z), numbers, and hyphens are allowed';
+    }
+    return '';
+});
+
+watch(
+    () => form.slug,
+    (newSlug) => {
+        const formatted = newSlug
+            .toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9-]/g, '');
+        if (newSlug !== formatted) {
+            form.slug = formatted;
+        }
+    },
+);
 
 const submit = async () => {
     try {

@@ -1,15 +1,12 @@
 <template>
     <Head>
-        <Title>{{ seoTitle }}</Title>
-        <Meta name="description" :content="seoDescription" />
-        <Meta
+        <title>{{ seoTitle }}</title>
+        <meta name="description" :content="seoDescription" />
+        <meta
             name="keywords"
             :content="product.meta_keywords"
             v-if="product.meta_keywords"
         />
-        <script type="application/ld+json" v-if="product.custom_schema">
-            {{ product.custom_schema }}
-        </script>
     </Head>
 
     <div class="min-h-screen bg-gray-50">
@@ -208,8 +205,8 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue';
-import { Link, router, Head, Meta, Title } from '@inertiajs/vue3';
+import { ref, reactive, computed, watch } from 'vue';
+import { Link, router, Head } from '@inertiajs/vue3';
 import CustomerHeader from '@/components/CustomerHeader.vue';
 
 const props = defineProps({
