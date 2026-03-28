@@ -9,6 +9,8 @@
         />
     </Head>
 
+    <div id="json-ld-schema" v-if="product.custom_schema" class="hidden"></div>
+
     <div class="min-h-screen bg-gray-50">
         <CustomerHeader />
 
@@ -205,7 +207,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch } from 'vue';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { Link, router, Head } from '@inertiajs/vue3';
 import CustomerHeader from '@/components/CustomerHeader.vue';
 
@@ -224,6 +226,17 @@ const seoDescription = computed(() => {
         props.product.short_description ||
         props.product.description?.substring(0, 160)
     );
+});
+
+onMounted(() => {
+    const schemaDiv = document.getElementById('json-ld-schema');
+    if (schemaDiv && props.product.custom_schema) {
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.text = props.product.custom_schema;
+        document.head.appendChild(script);
+        schemaDiv.remove();
+    }
 });
 
 const quantity = ref(1);
