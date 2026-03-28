@@ -1,36 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-50">
-        <header class="bg-white shadow-sm">
-            <nav
-                class="container mx-auto flex items-center justify-between px-4 py-4"
-            >
-                <Link href="/" class="text-2xl font-bold text-indigo-600"
-                    >NexCart</Link
-                >
-                <div class="flex items-center gap-6">
-                    <Link
-                        href="/products"
-                        class="text-gray-700 hover:text-indigo-600"
-                        >Products</Link
-                    >
-                    <Link
-                        href="/cart"
-                        class="text-gray-700 hover:text-indigo-600"
-                        >Cart</Link
-                    >
-                    <Link
-                        href="/wishlist"
-                        class="text-gray-700 hover:text-indigo-600"
-                        >Wishlist</Link
-                    >
-                    <Link
-                        href="/orders"
-                        class="text-gray-700 hover:text-indigo-600"
-                        >Orders</Link
-                    >
-                </div>
-            </nav>
-        </header>
+        <CustomerHeader />
 
         <main class="container mx-auto px-4 py-8">
             <h1 class="mb-6 text-2xl font-bold">My Wishlist</h1>
@@ -93,7 +63,8 @@
 </template>
 
 <script setup>
-import { router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
+import CustomerHeader from '@/components/CustomerHeader.vue';
 
 defineProps({
     wishlists: Object,

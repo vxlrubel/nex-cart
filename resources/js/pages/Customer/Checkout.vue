@@ -1,12 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-50">
-        <header class="bg-white shadow-sm">
-            <nav class="container mx-auto px-4 py-4">
-                <Link href="/" class="text-2xl font-bold text-indigo-600"
-                    >NexCart</Link
-                >
-            </nav>
-        </header>
+        <CustomerHeader />
 
         <main class="container mx-auto px-4 py-8">
             <h1 class="mb-6 text-2xl font-bold">Checkout</h1>
@@ -244,7 +238,8 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
+import CustomerHeader from '@/components/CustomerHeader.vue';
 
 const props = defineProps({
     cart: Object,

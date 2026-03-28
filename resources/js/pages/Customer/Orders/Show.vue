@@ -1,12 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-50">
-        <header class="bg-white shadow-sm">
-            <nav class="container mx-auto px-4 py-4">
-                <Link href="/" class="text-2xl font-bold text-indigo-600"
-                    >NexCart</Link
-                >
-            </nav>
-        </header>
+        <CustomerHeader />
 
         <main class="container mx-auto px-4 py-8">
             <Link
@@ -126,6 +120,9 @@
 </template>
 
 <script setup>
+import { Link } from '@inertiajs/vue3';
+import CustomerHeader from '@/components/CustomerHeader.vue';
+
 defineProps({
     order: Object,
 });
