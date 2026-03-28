@@ -67,6 +67,9 @@ Route::prefix('reviews')->name('reviews.')->middleware(['auth'])->group(function
     Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
 });
 
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/sitemap/generate', [SitemapController::class, 'generate'])->name('sitemap.generate')->middleware('auth');
+
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')
         ->middleware('permission:dashboard.view');

@@ -32,6 +32,8 @@ class Product extends Model
         'images',
         'meta_title',
         'meta_description',
+        'meta_keywords',
+        'custom_schema',
     ];
 
     protected $casts = [

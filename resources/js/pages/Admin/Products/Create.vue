@@ -137,6 +137,60 @@
                     ></textarea>
                 </div>
 
+                <div class="rounded-lg border border-gray-200 p-4">
+                    <h3 class="mb-4 text-lg font-semibold">SEO Settings</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="mb-2 block font-medium"
+                                >Meta Title</label
+                            >
+                            <input
+                                v-model="form.meta_title"
+                                type="text"
+                                class="w-full rounded border px-3 py-2"
+                            />
+                            <p class="mt-1 text-sm text-gray-500">
+                                Recommended: 50-60 characters
+                            </p>
+                        </div>
+                        <div>
+                            <label class="mb-2 block font-medium"
+                                >Meta Description</label
+                            >
+                            <textarea
+                                v-model="form.meta_description"
+                                rows="2"
+                                class="w-full rounded border px-3 py-2"
+                            ></textarea>
+                            <p class="mt-1 text-sm text-gray-500">
+                                Recommended: 150-160 characters
+                            </p>
+                        </div>
+                        <div>
+                            <label class="mb-2 block font-medium"
+                                >Meta Keywords</label
+                            >
+                            <input
+                                v-model="form.meta_keywords"
+                                type="text"
+                                class="w-full rounded border px-3 py-2"
+                                placeholder="keyword1, keyword2, keyword3"
+                            />
+                        </div>
+                        <div>
+                            <label class="mb-2 block font-medium"
+                                >Custom Schema (JSON-LD)</label
+                            >
+                            <textarea
+                                v-model="form.custom_schema"
+                                rows="4"
+                                class="w-full rounded border px-3 py-2 font-mono text-sm"
+                                placeholder='{"@context": "https://schema.org", ...}'
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-2 gap-4">
                     <label class="flex items-center gap-2">
                         <input
@@ -197,6 +251,10 @@ const form = reactive({
     is_active: true,
     is_featured: false,
     image: '',
+    meta_title: '',
+    meta_description: '',
+    meta_keywords: '',
+    custom_schema: '',
 });
 
 const submit = async () => {

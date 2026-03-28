@@ -1,4 +1,17 @@
 <template>
+    <Head>
+        <Title>{{ seoTitle }}</Title>
+        <Meta name="description" :content="seoDescription" />
+        <Meta
+            name="keywords"
+            :content="product.meta_keywords"
+            v-if="product.meta_keywords"
+        />
+        <script type="application/ld+json" v-if="product.custom_schema">
+            {{ product.custom_schema }}
+        </script>
+    </Head>
+
     <div class="min-h-screen bg-gray-50">
         <CustomerHeader />
 
@@ -195,13 +208,25 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
-import { Link, router } from '@inertiajs/vue3';
+import { ref, reactive, computed } from 'vue';
+import { Link, router, Head, Meta, Title } from '@inertiajs/vue3';
 import CustomerHeader from '@/components/CustomerHeader.vue';
 
 const props = defineProps({
     product: Object,
     relatedProducts: Array,
+});
+
+const seoTitle = computed(() => {
+    return props.product.meta_title || `${props.product.name} | NexCart`;
+});
+
+const seoDescription = computed(() => {
+    return (
+        props.product.meta_description ||
+        props.product.short_description ||
+        props.product.description?.substring(0, 160)
+    );
 });
 
 const quantity = ref(1);

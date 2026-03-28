@@ -63,6 +63,8 @@ class ProductController extends Controller
             'images' => 'nullable|array',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
+            'meta_keywords' => 'nullable|string|max:255',
+            'custom_schema' => 'nullable|string',
         ]);
 
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
@@ -111,6 +113,8 @@ class ProductController extends Controller
             'images' => 'nullable|array',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
+            'meta_keywords' => 'nullable|string|max:255',
+            'custom_schema' => 'nullable|string',
         ]);
 
         $product->update($validated);
