@@ -99,7 +99,9 @@ const statusClass = (approved: boolean) => {
                         </td>
                         <td class="px-4 py-3 text-muted-foreground">
                             {{
-                                new Date(review.created_at).toLocaleDateString()
+                                new Date(review.created_at).toLocaleDateString(
+                                    'en-US',
+                                )
                             }}
                         </td>
                         <td class="px-4 py-3 text-right">

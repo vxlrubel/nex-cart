@@ -87,7 +87,9 @@ defineProps<{
                         </td>
                         <td class="px-4 py-3 text-muted-foreground">
                             {{
-                                new Date(coupon.expires_at).toLocaleDateString()
+                                new Date(coupon.expires_at).toLocaleDateString(
+                                    'en-US',
+                                )
                             }}
                         </td>
                         <td class="px-4 py-3">

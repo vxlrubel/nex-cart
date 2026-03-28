@@ -100,6 +100,6 @@ class Product extends Model
 
     public function resolveRouteBinding($value, $field = null)
     {
-        return static::where('slug', $value)->first();
+        return static::where('slug', $value)->first() ?? static::find($value);
     }
 }

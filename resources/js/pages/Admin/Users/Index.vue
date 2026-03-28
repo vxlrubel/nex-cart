@@ -80,7 +80,11 @@ defineProps<{
                             </span>
                         </td>
                         <td class="px-4 py-3 text-muted-foreground">
-                            {{ new Date(user.created_at).toLocaleDateString() }}
+                            {{
+                                new Date(user.created_at).toLocaleDateString(
+                                    'en-US',
+                                )
+                            }}
                         </td>
                         <td class="px-4 py-3 text-right">
                             <div class="flex items-center justify-end gap-2">
